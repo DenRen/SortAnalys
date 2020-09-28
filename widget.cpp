@@ -136,6 +136,8 @@ void button::draw () {
             Window->draw (*spriteOff);
             break;
     }
+
+    Window->draw (text);
 }
 
 void button::action (sf::Event event) {
@@ -144,8 +146,9 @@ void button::action (sf::Event event) {
         if (event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePosition = sf::Mouse::getPosition (*Window);
 
-            if (Intersect (mousePosition))
+            if (Intersect (mousePosition)) {
                 state = BUTTON_STATE::TURN_ON;
+            }
         }
     } else if (event.type == sf::Event::MouseButtonReleased) {
         if (event.mouseButton.button == sf::Mouse::Left) {
@@ -153,6 +156,8 @@ void button::action (sf::Event event) {
 
             if (Intersect (mousePosition))
                 state = BUTTON_STATE::POINTED;
+            else
+                state = BUTTON_STATE::TURN_OFF;
         }
     }
 }
@@ -165,4 +170,24 @@ void button::action () {
         else
             state = BUTTON_STATE::TURN_OFF;
     }
+}
+
+void button::SetInCenter () {
+    MyText::SetInCenter (location, size);
+}
+
+void MyText::InitText (sf::Font &font, int size, sf::Color color) {
+    text.setFont (font);
+    text.setCharacterSize (size);
+    text.setFillColor (color);
+}
+
+void MyText::InitText (sf::Font &font, int size, sf::Color color, sf::Text::Style style) {
+    InitText (font, size, color);
+    text.setStyle (style);
+}
+
+void MyText::SetInCenter (sf::Vector2i location, sf::Vector2u size) {
+    sf::FloatRect bounds = text.getLocalBounds ();
+    text.setPosition (getCenter (location, size, bounds.height, bounds.width));
 }

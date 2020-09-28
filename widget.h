@@ -51,18 +51,29 @@ enum BUTTON_STATE {
     TURN_ON
 };
 
+struct MyText {
+    sf::Text text;
+
+    void InitText (sf::Font &font, int size, sf::Color color);
+    void InitText (sf::Font &font, int size, sf::Color color, sf::Text::Style style);
+
+    void SetInCenter (sf::Vector2i location, sf::Vector2u size);
+};
+
 // Coordinate central!
-class button : public widget {
+class button : public widget, public MyText {
     sf::Sprite *spriteOn;
     sf::Sprite *spritePtd;
     sf::Sprite *spriteOff;
     unsigned state : 2;
 public:
+
     button ();
     button (int locationX, int locationY);
     button (sf::Vector2i location, sf::Vector2u size);
 
     void SetAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed);
+    void SetInCenter ();
 
     void draw ();
     void action ();
