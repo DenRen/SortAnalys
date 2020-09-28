@@ -1,3 +1,4 @@
+#include <cassert>
 #include "MyWindow.h"
 
 sf::RenderWindow *Window = nullptr;
@@ -7,7 +8,7 @@ int main () {
     const int height = 1200, width = 720;
     const int FPS_Limit = 30 * 3;
 
-    const char Buttons[] = "../files/button-sprite.png";
+    const char nameTextureButtons[] = "../files/button-sprite.png";
 
     WinApp app (height, width, "SortAnalys");
 
@@ -26,17 +27,25 @@ int main () {
     if (font.loadFromFile (nameFont) == false)
         throw std::runtime_error ("Failed open font");
 
-    sf::Texture *TextureButtonOn  = LoadTexture (Buttons, {11, 8}, size_image_button);
-    sf::Texture *TextureButtonPtd = LoadTexture (Buttons, {11, 358}, size_image_button);
-    sf::Texture *TextureButtonOff = LoadTexture (Buttons, {11, 77},  size_image_button);
+    sf::Texture *TextureButtonOn  = LoadTexture (nameTextureButtons, {11, 8  }, size_image_button);
+    sf::Texture *TextureButtonPtd = LoadTexture (nameTextureButtons, {11, 358}, size_image_button);
+    sf::Texture *TextureButtonOff = LoadTexture (nameTextureButtons, {11, 77 }, size_image_button);
 
-    button Sort1 (sf::Vector2i(400, 300), size_button);
-    Sort1.SetAnimation (TextureButtonOn, TextureButtonOff, TextureButtonPtd);
-    Sort1.InitText (font, 24, sf::Color::White, sf::Text::Style::Bold);
-    Sort1.text.setString ("Hello");
-    Sort1.SetInCenter ();
+    /*
+    button TemplateButton (sf::Vector2i (0, 0), size_button);
+    TemplateButton.SetAnimation (TextureButtonOn, TextureButtonOff, TextureButtonPtd);
+    TemplateButton.InitText (font, 24, sf::Color::White, sf::Text::Style::Bold);
 
-    //app.Button = &Sort1;
+
+    TemplateButton.text.setString ("Hello");
+    TemplateButton.SetInCenter ();
+*/
+    ButtonMgr Buttons;
+    Buttons.setSize (size_button);
+    Buttons.setAnimation (TextureButtonOn, TextureButtonOff, TextureButtonPtd);
+    Buttons.setFont (&font, 24, sf::Color::White, sf::Text::Style::Bold);
+    assert (Buttons.Verifier ());
+    Buttons.addButton (sf::Vector2i (100, 200), "Hello");
 
     //app.Run ();
     while (app.window.isOpen ()) {
@@ -45,14 +54,17 @@ int main () {
             if (event.type == sf::Event::Closed)
                 app.window.close ();
 
-            Sort1.action (event);
+            Buttons.action (event);
+            //TemplateButton.action (event);
         }
 
-        Sort1.action ();
+        Buttons.action ();
+        //TemplateButton.action ();
 
         app.window.clear ();
 
-        Sort1.draw ();
+        Buttons.draw ();
+        //TemplateButton.draw ();
 
         app.window.display ();
     }

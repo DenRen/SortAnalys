@@ -67,6 +67,10 @@ bool widget::Intersect (sf::Vector2i point) {
            (location.y + size.y >= point.y && location.y <= point.y);
 }
 
+void widget::SetCenter (sf::Vector2i location) {
+    this->location = sf::Vector2i (location.x + size.x / 2, location.y + size.y / 2);
+}
+
 image::image (const char *file) :
     texture (new sf::Texture),
     sprite (new sf::Sprite)
@@ -191,3 +195,66 @@ void MyText::SetInCenter (sf::Vector2i location, sf::Vector2u size) {
     sf::FloatRect bounds = text.getLocalBounds ();
     text.setPosition (getCenter (location, size, bounds.height, bounds.width));
 }
+
+void ButtonMgr::addButton (sf::Vector2i CenterCoord, std::string title) {
+    button Button (sf::Vector2i (CenterCoord.x - size.x / 2, CenterCoord.y - size.y / 2), size);
+    Button.SetAnimation (TurnOn, TurnOff, Pointed);
+    if (style == -1)
+        Button.InitText (*font, sizeFont, color);
+    else
+        Button.InitText (*font, sizeFont, color, static_cast <sf::Text::Style > (style));
+
+    Button.text.setString (title);
+    Button.SetInCenter ();
+
+    buttons.push_back (Button);
+}
+
+void ButtonMgr::setFont (sf::Font *font, unsigned sizeFont, sf::Color color) {
+    if (font == nullptr)
+        throw std::runtime_error ("font == nullptr");
+
+    this->font = font;
+    this->sizeFont = sizeFont;
+    this->color = color;
+}
+
+void ButtonMgr::setFont (sf::Font *font, unsigned sizeFont, sf::Color color, sf::Text::Style style) {
+    setFont (font, sizeFont, color);
+    this->style = style;
+}
+
+void ButtonMgr::setAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed) {
+    this->TurnOn = TurnOn;
+    this->TurnOff = TurnOff;
+    this->Pointed = Pointed;
+}
+
+void ButtonMgr::setSize (sf::Vector2u size) {
+    this->size = size;
+}
+
+bool ButtonMgr::Verifier () {
+    return (size.x > 0 && size.y > 0) &&
+           (TurnOn != nullptr && TurnOff != nullptr && Pointed != nullptr) &&
+           (font != nullptr && sizeFont > 0);
+}
+
+void ButtonMgr::draw () {
+    const int size = buttons.size ();
+    for (int i = 0; i < size; i++)
+        buttons[i].draw ();
+}
+
+void ButtonMgr::action () {
+    const int size = buttons.size ();
+    for (int i = 0; i < size; i++)
+        buttons[i].action ();
+}
+
+void ButtonMgr::action (sf::Event event) {
+    const int size = buttons.size ();
+    for (int i = 0; i < size; i++)
+        buttons[i].action (event);
+}
+

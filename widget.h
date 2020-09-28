@@ -24,6 +24,8 @@ public:
 
     const sf::Vector2u getSize () const;
 
+    void SetCenter (sf::Vector2i location);
+
     bool VerifySize ();
     bool Intersect (sf::Vector2i Point);
 
@@ -80,6 +82,37 @@ public:
     void action (sf::Event event);
     //button (sf::Texture texture);
     ~button ();
+};
+
+class ButtonMgr {       // Fabric
+    sf::Vector2u size;
+    sf::Texture *TurnOn;
+    sf::Texture *TurnOff;
+    sf::Texture *Pointed;
+
+    sf::Font *font;
+    unsigned sizeFont;
+    sf::Color color;
+    int style = -1;
+
+    std::vector <button> buttons;
+public:
+
+    ButtonMgr () = default;
+    ~ButtonMgr () = default;
+
+    void setSize (sf::Vector2u size);
+    void setAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed);
+    void setFont (sf::Font *font, unsigned sizeFont, sf::Color color);
+    void setFont (sf::Font *font, unsigned sizeFont, sf::Color color, sf::Text::Style style);
+
+    bool Verifier ();
+
+    void draw ();
+    void action ();
+    void action (sf::Event event);
+
+    void addButton (sf::Vector2i CenterCoord, std::string title);
 };
 
 #endif //SORTANALYS_WIDGET_H
