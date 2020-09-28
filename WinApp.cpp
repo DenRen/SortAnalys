@@ -1,15 +1,11 @@
-#include "WinApp.h"
+#include "MyWindow.h"
 
 WinApp::WinApp (int height, int width, const char *title) :
     ColorBG (sf::Color (0, 0, 0)),
     height (height), width (width),
     window (sf::VideoMode (height, width), title)
 {
-    // window (..., title) checked on height < 0 || width < 0
-    /*
-    if (height < 0 || width < 0)
-        throw std::runtime_error ("height or width less zero");
-    */
+    Window = &(this->window);
 }
 
 void WinApp::Run () {
@@ -20,8 +16,6 @@ void WinApp::Run () {
                 window.close ();
 
         window.clear (ColorBG);
-
-
 
         window.display ();
     }

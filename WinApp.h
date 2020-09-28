@@ -1,14 +1,14 @@
 #ifndef SORTANALYS_WINAPP_H
 #define SORTANALYS_WINAPP_H
 
-#include <SFML/Graphics.hpp>
-#include "widget.h"
+#include "MyWindow.h"
 
 class WinApp {
     int height, width;
     sf::Color ColorBG;
 
 public:
+    //button *Button;
 
     sf::RenderWindow window;
 

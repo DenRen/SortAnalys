@@ -1,11 +1,13 @@
 #include "MyWindow.h"
 
+sf::RenderWindow *Window = nullptr;
+
 int main () {
 
     const int height = 1200, width = 720;
     const int FPS_Limit = 30;
 
-    const char Buttons[] = "../files/GUI-Buttons.jpg";
+    const char Buttons[] = "../files/Buttons.png";
 
     WinApp app (height, width, "SortAnalys");
 
@@ -16,24 +18,33 @@ int main () {
     std::vector <std::string> nameSort = {"First", "Second"};
     const int QuntButton = nameSort.size ();
 
-    sf::Vector2u size_button (60, 25);
-    sf::Vector2u size_image_button (110, 40);
+    sf::Vector2u size_button (200, 200);
+    sf::Vector2u size_image_button (146, 40);
 
-    sf::Texture *TextureButtonOn = new sf::Texture;
-    TextureButtonOn->loadFromFile (Buttons, sf::IntRect (27, 55, size_image_button.x, size_image_button.y));
-    sf::Sprite *SpriteButtonOn = getSprite (TextureButtonOn, size_button);
-    app.window.draw (*SpriteButtonOn);
+    sf::Texture *TextureButtonOn  = LoadTexture (Buttons, {50, 212}, size_image_button);
+    sf::Texture *TextureButtonPtd = LoadTexture (Buttons, {50, 146}, size_image_button);
+    sf::Texture *TextureButtonOff = LoadTexture (Buttons, {50, 80},  size_image_button);
 
-    sf::Texture *TextureButtonOff = new sf::Texture;
-    TextureButtonOff->loadFromFile (Buttons, sf::IntRect (152, 55, size_image_button.x, size_image_button.y));
-    sf::Sprite *SpriteButtonOff = getSprite (TextureButtonOff, size_button);
-    SpriteButtonOff->move (50, 50);
+    button Sort1 (sf::Vector2i(200, 100), size_button);
+    Sort1.SetAnimation (TextureButtonOn, TextureButtonOff, TextureButtonPtd);
 
-    app.window.draw (*SpriteButtonOff);
-    app.window.display ();
+    //app.Button = &Sort1;
 
-    while (true);
     //app.Run ();
+    while (app.window.isOpen ()) {
+        sf::Event event;
+        while (app.window.pollEvent (event))
+            if (event.type == sf::Event::Closed)
+                app.window.close ();
+
+        Sort1.action ();
+
+        app.window.clear ();
+
+        Sort1.draw ();
+
+        app.window.display ();
+    }
 
     return 0;
 }
