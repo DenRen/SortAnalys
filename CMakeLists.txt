@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.14)
+project(SortAnalys)
+
+set(CMAKE_CXX_FLAGS)
+set(CMAKE_CXX_STANDARD 17)
+
+set(SFML_INCLUDE_DIR "/usr/include/SFML")
+set(SFML_LIBRARY_DIR "/usr/lib/SFML")
+
+link_directories (SFML_LIBRARY_DIR)
+include_directories (SFML_INCLUDE_DIR)
+
+add_executable(SortAnalys main.cpp widget.cpp widget.h point.cpp point.h MyWindow.h WinApp.cpp WinApp.h MyFuncs.cpp MyFuncs.h)
+
+target_link_libraries (SortAnalys sfml-graphics sfml-window sfml-system sfml-audio)
