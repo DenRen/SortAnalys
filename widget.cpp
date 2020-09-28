@@ -139,16 +139,30 @@ void button::draw () {
 }
 
 void button::action (sf::Event event) {
-    // Empty
+
+    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            sf::Vector2i mousePosition = sf::Mouse::getPosition (*Window);
+
+            if (Intersect (mousePosition))
+                state = BUTTON_STATE::TURN_ON;
+        }
+    } else if (event.type == sf::Event::MouseButtonReleased) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            sf::Vector2i mousePosition = sf::Mouse::getPosition (*Window);
+
+            if (Intersect (mousePosition))
+                state = BUTTON_STATE::POINTED;
+        }
+    }
 }
 
 void button::action () {
-    sf::Vector2i mousePosition = sf::Mouse::getPosition (*Window);
-    if (Intersect (mousePosition))
-        if (sf::Mouse::isButtonPressed (sf::Mouse::Left))
-            state = BUTTON_STATE::TURN_ON;
-        else
+    if (state != BUTTON_STATE::TURN_ON) {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition (*Window);
+        if (Intersect (mousePosition))
             state = BUTTON_STATE::POINTED;
-    else
-        state = BUTTON_STATE::TURN_OFF;
+        else
+            state = BUTTON_STATE::TURN_OFF;
+    }
 }
