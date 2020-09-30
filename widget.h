@@ -14,7 +14,7 @@ public:
     widget (int location_x, int location_y);
     widget (int location_x, int location_y, int height, int width);
 
-    void setLocate (sf::Vector2i locate);
+    void setLocation (sf::Vector2i locate);
     void move (sf::Vector2i move);
     void move (int move_x, int move_y);
 
@@ -70,9 +70,12 @@ class button : public widget, public MyText {
     unsigned state : 2;
 public:
 
+    int id = -1;
+
     button ();
     button (int locationX, int locationY);
     button (sf::Vector2i location, sf::Vector2u size);
+    button (button &&) = default;
 
     void SetAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed);
     void SetInCenter ();
@@ -85,6 +88,7 @@ public:
 };
 
 class ButtonMgr {       // Fabric
+public:
     sf::Vector2u size;
     sf::Texture *TurnOn;
     sf::Texture *TurnOff;
@@ -95,11 +99,11 @@ class ButtonMgr {       // Fabric
     sf::Color color;
     int style = -1;
 
-    std::vector <button> buttons;
-public:
+    std::vector <button *> buttons;
+
 
     ButtonMgr () = default;
-    ~ButtonMgr () = default;
+    ~ButtonMgr ();
 
     void setSize (sf::Vector2u size);
     void setAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed);

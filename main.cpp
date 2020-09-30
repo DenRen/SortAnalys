@@ -1,12 +1,13 @@
 #include <cassert>
 #include "MyWindow.h"
+#include <iostream>
 
 sf::RenderWindow *Window = nullptr;
 
 int main () {
 
-    const int height = 1200, width = 720;
-    const int FPS_Limit = 30 * 3;
+    const int height = 720, width = 1200;
+    const int FPS_Limit = 30;
 
     const char nameTextureButtons[] = "../files/button-sprite.png";
 
@@ -31,21 +32,16 @@ int main () {
     sf::Texture *TextureButtonPtd = LoadTexture (nameTextureButtons, {11, 358}, size_image_button);
     sf::Texture *TextureButtonOff = LoadTexture (nameTextureButtons, {11, 77 }, size_image_button);
 
-    /*
-    button TemplateButton (sf::Vector2i (0, 0), size_button);
-    TemplateButton.SetAnimation (TextureButtonOn, TextureButtonOff, TextureButtonPtd);
-    TemplateButton.InitText (font, 24, sf::Color::White, sf::Text::Style::Bold);
-
-
-    TemplateButton.text.setString ("Hello");
-    TemplateButton.SetInCenter ();
-*/
     ButtonMgr Buttons;
     Buttons.setSize (size_button);
     Buttons.setAnimation (TextureButtonOn, TextureButtonOff, TextureButtonPtd);
     Buttons.setFont (&font, 24, sf::Color::White, sf::Text::Style::Bold);
-    assert (Buttons.Verifier ());
-    Buttons.addButton (sf::Vector2i (100, 200), "Hello");
+    if (Buttons.Verifier () == false)
+        throw std::runtime_error ("Button construct incorrect");
+
+    Buttons.addButton (sf::Vector2i (1 * width / 4, height / 2), "Hello");
+    Buttons.addButton (sf::Vector2i (2 * width / 4, height / 2), "Hello");
+    Buttons.addButton (sf::Vector2i (3 * width / 4, height / 2), "Hello");
 
     //app.Run ();
     while (app.window.isOpen ()) {
@@ -55,16 +51,13 @@ int main () {
                 app.window.close ();
 
             Buttons.action (event);
-            //TemplateButton.action (event);
         }
 
         Buttons.action ();
-        //TemplateButton.action ();
 
         app.window.clear ();
 
         Buttons.draw ();
-        //TemplateButton.draw ();
 
         app.window.display ();
     }

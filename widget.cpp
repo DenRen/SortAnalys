@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iostream>
 #include "widget.h"
 
 widget::widget (int location_x, int location_y) :
@@ -46,7 +47,7 @@ void widget::setSize (sf::Vector2u size) {
     this->size = size;
 }
 
-void widget::setLocate (sf::Vector2i locate) {
+void widget::setLocation (sf::Vector2i locate) {
     location = locate;
 }
 
@@ -114,6 +115,7 @@ button::button () :
 {};
 
 button::~button () {
+    std::cout << "id " << id << std::endl;
     delete spriteOff;
     delete spriteOn;
 }
@@ -197,15 +199,16 @@ void MyText::SetInCenter (sf::Vector2i location, sf::Vector2u size) {
 }
 
 void ButtonMgr::addButton (sf::Vector2i CenterCoord, std::string title) {
-    button Button (sf::Vector2i (CenterCoord.x - size.x / 2, CenterCoord.y - size.y / 2), size);
-    Button.SetAnimation (TurnOn, TurnOff, Pointed);
-    if (style == -1)
-        Button.InitText (*font, sizeFont, color);
-    else
-        Button.InitText (*font, sizeFont, color, static_cast <sf::Text::Style > (style));
 
-    Button.text.setString (title);
-    Button.SetInCenter ();
+    button *Button = new button (sf::Vector2i (CenterCoord.x - size.x / 2, CenterCoord.y - size.y / 2), size);
+    Button->SetAnimation (TurnOn, TurnOff, Pointed);
+    if (style == -1)
+        Button->InitText (*font, sizeFont, color);
+    else
+        Button->InitText (*font, sizeFont, color, static_cast <sf::Text::Style > (style));
+
+    Button->text.setString (title);
+    Button->SetInCenter ();
 
     buttons.push_back (Button);
 }
@@ -243,18 +246,24 @@ bool ButtonMgr::Verifier () {
 void ButtonMgr::draw () {
     const int size = buttons.size ();
     for (int i = 0; i < size; i++)
-        buttons[i].draw ();
+        buttons[i]->draw ();
 }
 
 void ButtonMgr::action () {
     const int size = buttons.size ();
     for (int i = 0; i < size; i++)
-        buttons[i].action ();
+        buttons[i]->action ();
 }
 
 void ButtonMgr::action (sf::Event event) {
     const int size = buttons.size ();
     for (int i = 0; i < size; i++)
-        buttons[i].action (event);
+        buttons[i]->action (event);
+}
+
+ButtonMgr::~ButtonMgr () {
+    int iter = buttons.size ();
+    while (--iter >= 0)
+        delete buttons[iter];
 }
 

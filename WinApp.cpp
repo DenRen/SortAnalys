@@ -3,7 +3,7 @@
 WinApp::WinApp (int height, int width, const char *title) :
     ColorBG (sf::Color (0, 0, 0)),
     height (height), width (width),
-    window (sf::VideoMode (height, width), title)
+    window (sf::VideoMode (width, height), title)
 {
     Window = &(this->window);
 }
