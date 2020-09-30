@@ -1,4 +1,4 @@
-#include "MyWindow.h"
+#include "WinApp.h"
 
 WinApp::WinApp (int height, int width, const char *title) :
     ColorBG (sf::Color (0, 0, 0)),

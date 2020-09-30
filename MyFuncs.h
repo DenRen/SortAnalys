@@ -1,9 +1,14 @@
 #ifndef SORTANALYS_MYFUNCS_H
 #define SORTANALYS_MYFUNCS_H
 
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include "widget.h"
 
 sf::Sprite *getSprite (sf::Texture *texture, sf::Vector2u new_size);
 void SetSprite (sf::Sprite &sprite, sf::Texture *texture, sf::Vector2u new_size);
+
+void InitButtonMgr (ButtonMgr *Buttons, sf::Vector2u size_button, const int sizeFont);
 
 sf::Texture *LoadTexture (const char *name_file, sf::Vector2u coord, sf::Vector2u size);
 

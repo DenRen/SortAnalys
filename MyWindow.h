@@ -5,10 +5,10 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-#include "point.h"
+/*#include "point.h"
 #include "widget.h"
 #include "WinApp.h"
-#include "MyFuncs.h"
+#include "MyFuncs.h"*/
 
 extern sf::RenderWindow *Window;
 

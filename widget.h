@@ -56,6 +56,8 @@ enum BUTTON_STATE {
 struct MyText {
     sf::Text text;
 
+    MyText () = default;
+
     void InitText (sf::Font &font, int size, sf::Color color);
     void InitText (sf::Font &font, int size, sf::Color color, sf::Text::Style style);
 
@@ -69,8 +71,6 @@ class button : public widget, public MyText {
     sf::Sprite *spriteOff;
     unsigned state : 2;
 public:
-
-    int id = -1;
 
     button ();
     button (int locationX, int locationY);
@@ -88,7 +88,6 @@ public:
 };
 
 class ButtonMgr {       // Fabric
-public:
     sf::Vector2u size;
     sf::Texture *TurnOn;
     sf::Texture *TurnOff;
@@ -98,9 +97,8 @@ public:
     unsigned sizeFont;
     sf::Color color;
     int style = -1;
-
+public:
     std::vector <button *> buttons;
-
 
     ButtonMgr () = default;
     ~ButtonMgr ();

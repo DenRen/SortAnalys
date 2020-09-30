@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "widget.h"
+#include "MyFuncs.h"
 
 widget::widget (int location_x, int location_y) :
         location (location_x, location_y),
@@ -96,7 +97,7 @@ void image::SetTexture (const char *file) {
 
 button::button (sf::Vector2i location, sf::Vector2u size) :
     widget (location, size),
-    spriteOn (new sf::Sprite),
+    spriteOn  (new sf::Sprite),
     spritePtd (new sf::Sprite),
     spriteOff (new sf::Sprite),
     state (BUTTON_STATE::TURN_OFF)
@@ -115,7 +116,6 @@ button::button () :
 {};
 
 button::~button () {
-    std::cout << "id " << id << std::endl;
     delete spriteOff;
     delete spriteOn;
 }
@@ -265,5 +265,11 @@ ButtonMgr::~ButtonMgr () {
     int iter = buttons.size ();
     while (--iter >= 0)
         delete buttons[iter];
+
+    delete Pointed;
+    delete TurnOn;
+    delete TurnOff;
+
+    delete font;
 }
 
