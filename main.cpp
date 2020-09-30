@@ -1,6 +1,3 @@
-#include <cassert>
-#include <iostream>
-
 #include "WinApp.h"
 #include "MyFuncs.h"
 
@@ -19,7 +16,6 @@ int main () {
     WinApp app (height, width, "SortAnalys");
 
     app.window.setFramerateLimit (FPS_Limit);
-
     app.SetColorBackground (ColorBackground);
 
     std::vector <std::string> nameSort = {"First", "Second"};
@@ -32,24 +28,7 @@ int main () {
     Buttons->addButton (sf::Vector2i (2 * width / 4, height / 2), "Hello");
     Buttons->addButton (sf::Vector2i (3 * width / 4, height / 2), "Hello");
 
-    //app.Run ();
-    while (app.window.isOpen ()) {
-        sf::Event event;
-        while (app.window.pollEvent (event)) {
-            if (event.type == sf::Event::Closed)
-                app.window.close ();
-
-            Buttons->action (event);
-        }
-
-        Buttons->action ();
-
-        app.window.clear ();
-
-        Buttons->draw ();
-
-        app.window.display ();
-    }
+    app.Run ();
 
     return 0;
 }

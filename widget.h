@@ -1,6 +1,8 @@
 #ifndef SORTANALYS_WIDGET_H
 #define SORTANALYS_WIDGET_H
 
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "MyWindow.h"
 
 class widget {

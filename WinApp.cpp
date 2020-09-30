@@ -1,3 +1,5 @@
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Window.hpp>
 #include "WinApp.h"
 
 WinApp::WinApp (int height, int width, const char *title) :
@@ -10,12 +12,19 @@ WinApp::WinApp (int height, int width, const char *title) :
 
 void WinApp::Run () {
     while (window.isOpen ()) {
-        sf::Event event;
-        while (window.pollEvent (event))
+        sf::Event event = sf::Event ();
+        while (window.pollEvent (event)) {
             if (event.type == sf::Event::Closed)
                 window.close ();
 
-        window.clear (ColorBG);
+            Buttons.action (event);
+        }
+
+        Buttons.action ();
+
+        window.clear ();
+
+        Buttons.draw ();
 
         window.display ();
     }

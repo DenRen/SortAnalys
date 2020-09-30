@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include <iostream>
+#include <SFML/Window/Event.hpp>
 #include "widget.h"
 #include "MyFuncs.h"
 
