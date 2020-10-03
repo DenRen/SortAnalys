@@ -45,6 +45,9 @@ void InitGraphicMgr (GraphicMgr *Graphics, sf::Vector2u size_graphic, const int 
 
     Graphics->setFont (font, sizeFont, sf::Color::White, sf::Text::Style::Bold);
 
+    Graphics->radiusPoint = 3;
+    Graphics->colorPoint = sf::Color::Green;
+
     if (Graphics->Verifier () == false)
         throw std::runtime_error ("Incorrect value in InitGraphicMgr");
 }

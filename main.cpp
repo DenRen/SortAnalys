@@ -1,3 +1,4 @@
+#include <cmath>
 #include "WinApp.h"
 #include "GraphicsSettings.h"
 
@@ -34,8 +35,14 @@ int main () {
     GraphicMgr *Graphics = &app.Graphics;
     InitGraphicMgr (Graphics, size_graphic, sizeFontGraphic);
 
-    Graphics->addGraph (sf::Vector2i (400, 400), sf::Vector2i (200, 50));
-    Graphics->addGraph (sf::Vector2i (900, 400), sf::Vector2i (100, 50));
+    std::vector <std::pair <float, float>> data;
+    const float size_data = 20;
+    for (float x = 0; x < size_data; x += 0.1)
+        data.push_back (std::make_pair (x, sin (x) * exp (x / 10 - 1)));
+
+    Graphics->addGraph (sf::Vector2i (900, 400), sf::Vector2i (30, 8));
+
+    Graphics->graphs[0]->data = data;
 
     app.Run ();
 

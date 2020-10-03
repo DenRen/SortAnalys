@@ -158,6 +158,9 @@ void GraphicMgr::SetTemplParam (Graphic *graph) {
         graph->InitText (*font, sizeFont, color);
     else
         graph->InitText (*font, sizeFont, color, static_cast <sf::Text::Style > (style));
+
+    graph->radiusPoint = radiusPoint;
+    graph->colorPoint = colorPoint;
 }
 
 sf::Vector2i GraphicMgr::SetValDiv (sf::Vector2i MaxVal) {

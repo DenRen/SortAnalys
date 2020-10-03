@@ -2,6 +2,7 @@
 #define SORTANALYS_WIDGET_H
 
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include "MyWindow.h"
@@ -106,6 +107,8 @@ class Graphic : public widget, public MyText {
     sf::RectangleShape ArrowX[2];
     sf::RectangleShape ArrowY[2];
 
+    sf::CircleShape point;
+
     bool changed = true;
 
     sf::Vector2i coordCenter;
@@ -130,8 +133,13 @@ public:
 
     sf::Vector2i valDiv;
 
+    int radiusPoint;
+    sf::Color colorPoint;
+
     int lenArrow;       // Hypotenuse
     float angleArrow;
+
+    std::vector <std::pair <float, float>> data;
 
     void SetChanged ();
 
@@ -144,5 +152,8 @@ public:
 
     bool Verifier ();
     void update ();
+
+    sf::Vector2i GetMinMaxValX ();
+    sf::Vector2i GetMinMaxValY ();
 };
 #endif //SORTANALYS_WIDGET_H

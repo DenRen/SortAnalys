@@ -38,12 +38,13 @@ public:
 
 class GraphicMgr {
 
+
+public:
     sf::Font *font;
     unsigned sizeFont;
     sf::Color color;
     int style = -1;
 
-public:
     sf::Vector2u size;
 
     sf::Vector2f RelPosIntAxes;     // Relative position of intersecting axes
@@ -63,6 +64,9 @@ public:
 
     int lenArrow;       // Hypotenuse
     float angleArrow;
+
+    int radiusPoint;
+    sf::Color colorPoint;
 
     std::vector <Graphic *> graphs;
 

@@ -290,11 +290,25 @@ void Graphic::draw () {
     text.setPosition (coordCenter.x - lenDiv / 2, coordCenter.y + lenDiv / 2);
     Window->draw (text);
 
-
     // Draw arrow of axes
     for (int i = 0; i < 2; i++) {
         Window->draw (ArrowX[i]);
         Window->draw (ArrowY[i]);
+    }
+
+    // Draw only I part graphic
+    const int size_data = data.size ();
+    const int maxValX = GetMinMaxValX ().y;
+    const int maxValY = GetMinMaxValY ().y;
+
+    sf::Vector2f coef = sf::Vector2f ((float) LenAxesX.y / maxValX, (float) LenAxesY.x / maxValY);
+
+    for (int i = 0; i < size_data; i++) {
+        float x = data[i].first, y = data[i].second;
+        if (x <= maxValX && y <= maxValY) {
+            point.setPosition (coordCenter.x + x * coef.x, coordCenter.y - y * coef.y);
+            Window->draw (point);
+        }
     }
 }
 
@@ -343,6 +357,10 @@ void Graphic::update () {
         ArrowY[i].setRotation ((1 - 2 * i) * angleArrow);
     }
 
+    point.setRadius (radiusPoint);
+    point.setFillColor (colorPoint);
+    point.setOrigin (radiusPoint / 2, radiusPoint / 2);
+
     changed = false;
 }
 
@@ -352,4 +370,28 @@ Graphic::Graphic (sf::Vector2i location, sf::Vector2u size) :
 
 void Graphic::SetChanged () {
     changed = true;
+}
+
+sf::Vector2i Graphic::GetMinMaxValX () {
+    int left_min_val = 0;
+    if (LenAxesX.x != 0)
+        left_min_val = valDiv.x * (NumDivX.y + 1);
+
+    int right_max_val = 0;
+    if (LenAxesX.y != 0)
+        right_max_val = valDiv.x * (NumDivX.x + 1);
+
+    return sf::Vector2i (left_min_val, right_max_val);
+}
+
+sf::Vector2i Graphic::GetMinMaxValY () {
+    int down_min_val = 0;
+    if (LenAxesY.y != 0)
+        down_min_val = valDiv.y * (NumDivY.y + 1);
+
+    int up_max_val = 0;
+    if (LenAxesY.x != 0)
+        up_max_val = valDiv.y * (NumDivY.x + 1);
+
+    return sf::Vector2i (down_min_val, up_max_val);
 }
