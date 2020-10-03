@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "widget.h"
 #include "MyFuncs.h"
@@ -195,81 +196,160 @@ void MyText::InitText (sf::Font &font, int size, sf::Color color, sf::Text::Styl
 
 void MyText::SetInCenter (sf::Vector2i location, sf::Vector2u size) {
     sf::FloatRect bounds = text.getLocalBounds ();
-    text.setPosition (getCenter (location, size, bounds.height, bounds.width));
+    text.setOrigin (bounds.width / 2, bounds.height);
+    text.setPosition (sf::Vector2f (location.x + size.x / 2, location.y + size.y / 2));
 }
 
-void ButtonMgr::addButton (sf::Vector2i CenterCoord, std::string title) {
-
-    button *Button = new button (sf::Vector2i (CenterCoord.x - size.x / 2, CenterCoord.y - size.y / 2), size);
-    Button->SetAnimation (TurnOn, TurnOff, Pointed);
-    if (style == -1)
-        Button->InitText (*font, sizeFont, color);
-    else
-        Button->InitText (*font, sizeFont, color, static_cast <sf::Text::Style > (style));
-
-    Button->text.setString (title);
-    Button->SetInCenter ();
-
-    buttons.push_back (Button);
+void MyText::SetOriginInCenter () {
+    sf::Rect <float> size = text.getLocalBounds ();
+    text.setOrigin (size.width / 2, size.height);
 }
 
-void ButtonMgr::setFont (sf::Font *font, unsigned sizeFont, sf::Color color) {
-    if (font == nullptr)
-        throw std::runtime_error ("font == nullptr");
-
-    this->font = font;
-    this->sizeFont = sizeFont;
-    this->color = color;
+void MyText::SetOriginInUp () {
+    sf::Rect <float> size = text.getLocalBounds ();
+    text.setOrigin (size.width / 2, size.height / 2);
 }
 
-void ButtonMgr::setFont (sf::Font *font, unsigned sizeFont, sf::Color color, sf::Text::Style style) {
-    setFont (font, sizeFont, color);
-    this->style = style;
+void MyText::SetOriginInRight () {
+    sf::Rect <float> size = text.getLocalBounds ();
+    text.setOrigin (size.width, size.height);
 }
 
-void ButtonMgr::setAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed) {
-    this->TurnOn = TurnOn;
-    this->TurnOff = TurnOff;
-    this->Pointed = Pointed;
+void MyText::SetOriginInLeft () {
+    sf::Rect <float> size = text.getLocalBounds ();
+    text.setOrigin (0, size.height);
 }
 
-void ButtonMgr::setSize (sf::Vector2u size) {
-    this->size = size;
+void MyText::SetOriginInTopRight () {
+    sf::Rect <float> size = text.getLocalBounds ();
+    text.setOrigin (size.width, 0);
 }
 
-bool ButtonMgr::Verifier () {
-    return (size.x > 0 && size.y > 0) &&
-           (TurnOn != nullptr && TurnOff != nullptr && Pointed != nullptr) &&
-           (font != nullptr && sizeFont > 0);
+bool Graphic::Verifier () {
+    return (widget::size.x > 0 && thickAxes > 0) &&
+           (widget::size.y > 0 && thickDiv  > 0);
 }
 
-void ButtonMgr::draw () {
-    const int size = buttons.size ();
-    for (int i = 0; i < size; i++)
-        buttons[i]->draw ();
+void Graphic::draw () {
+    if (changed)
+        update ();
+
+    Window->draw (AxesX);
+    Window->draw (AxesY);
+
+    DivX.setPosition (coordCenter.x, coordCenter.y);
+    int delta_X = LenAxesX.y / (NumDivX.x + 1);
+    for (int i = 0; i < NumDivX.x; i++) {
+        DivX.move (delta_X, 0);
+        Window->draw (DivX);
+
+        text.setString (std::to_string (valDiv.x * (i + 1)));
+        MyText::SetOriginInUp ();
+        text.setPosition (coordCenter.x + (i + 1) * delta_X, coordCenter.y + lenDiv / 2 + DistBetweenDivVal.x);
+        Window->draw (text);
+    }
+
+    DivX.setPosition (coordCenter.x, coordCenter.y);
+    delta_X = LenAxesX.x / (NumDivX.y + 1);
+    for (int i = 0; i < NumDivX.y; i++) {
+        DivX.move (-delta_X, 0);
+        Window->draw (DivX);
+
+        text.setString (std::to_string (-valDiv.x * (i + 1)));
+        MyText::SetOriginInUp ();
+        text.setPosition (coordCenter.x - (i + 1) * delta_X, coordCenter.y + lenDiv / 2 + DistBetweenDivVal.x);
+        Window->draw (text);
+    }
+
+    DivY.setPosition (coordCenter.x, coordCenter.y);
+    int delta_Y = LenAxesY.x / (NumDivY.x + 1);
+    for (int i = 0; i < NumDivY.x; i++) {
+        DivY.move (0, -delta_Y);
+        Window->draw (DivY);
+
+        text.setString (std::to_string (valDiv.y * (i + 1)));
+        MyText::SetOriginInRight ();
+        text.setPosition (coordCenter.x - lenDiv / 2 - DistBetweenDivVal.y, coordCenter.y - delta_Y * (i + 1));
+        Window->draw (text);
+    }
+
+    DivY.setPosition (coordCenter.x, coordCenter.y);
+    delta_Y = LenAxesY.y / (NumDivY.y + 1);
+    for (int i = 0; i < NumDivY.y; i++) {
+        DivY.move (0, delta_Y);
+        Window->draw (DivY);
+
+        text.setString (std::to_string (-valDiv.y * (i + 1)));
+        MyText::SetOriginInRight ();
+        text.setPosition (coordCenter.x - lenDiv / 2 - DistBetweenDivVal.y, coordCenter.y - delta_Y * (i + 1));
+        Window->draw (text);
+    }
+
+    text.setString ("0");
+    MyText::SetOriginInTopRight ();
+    text.setPosition (coordCenter.x - lenDiv / 2, coordCenter.y + lenDiv / 2);
+    Window->draw (text);
+
+
+    // Draw arrow of axes
+    for (int i = 0; i < 2; i++) {
+        Window->draw (ArrowX[i]);
+        Window->draw (ArrowY[i]);
+    }
 }
 
-void ButtonMgr::action () {
-    const int size = buttons.size ();
-    for (int i = 0; i < size; i++)
-        buttons[i]->action ();
+void Graphic::action () {
+
 }
 
-void ButtonMgr::action (sf::Event event) {
-    const int size = buttons.size ();
-    for (int i = 0; i < size; i++)
-        buttons[i]->action (event);
+void Graphic::action (sf::Event event) {
+
 }
 
-ButtonMgr::~ButtonMgr () {
-    int iter = buttons.size ();
-    while (--iter >= 0)
-        delete buttons[iter];
+void Graphic::update () {
+    coordCenter = sf::Vector2i (location.x + size.x * RelPosIntAxes.x,
+                                location.y + size.y * (1 - RelPosIntAxes.y));
 
-    delete Pointed;
-    delete TurnOn;
-    delete TurnOff;
+    LenAxesX = sf::Vector2i ((coordCenter.x - location.x) * RelLenX.x,
+                             (location.x + size.x - coordCenter.x) * RelLenX.y);
 
-    delete font;
+    LenAxesY = sf::Vector2i ((coordCenter.y - location.y) * RelLenY.x,
+                             (location.y + size.y - coordCenter.y) * RelLenY.y);
+
+    AxesX.setSize (sf::Vector2f (LenAxesX.x + LenAxesX.y, thickAxes));
+    AxesX.setOrigin (0, thickAxes / 2);
+    AxesX.setPosition (coordCenter.x - LenAxesX.x, coordCenter.y);
+
+    AxesY.setSize (sf::Vector2f (thickAxes, LenAxesY.x + LenAxesY.y));
+    AxesY.setOrigin (thickAxes / 2, 0);
+    AxesY.setPosition (coordCenter.x, coordCenter.y - LenAxesY.x);
+
+    DivX.setSize (sf::Vector2f (thickDiv, lenDiv));
+    DivX.setOrigin (sf::Vector2f (thickDiv / 2, lenDiv / 2));
+
+    DivY.setSize (sf::Vector2f (lenDiv, thickDiv));
+    DivY.setOrigin (sf::Vector2f (lenDiv / 2, thickDiv / 2));
+
+    for (int i = 0; i < 2; i++) {
+        ArrowX[i].setSize (sf::Vector2f (lenArrow, thickAxes));
+        ArrowX[i].setOrigin (sf::Vector2f (lenArrow, thickAxes / 2));
+        ArrowX[i].setPosition (sf::Vector2f (coordCenter.x + LenAxesX.y, coordCenter.y));
+        ArrowX[i].setRotation ((1 - 2 * i) * angleArrow);
+    }
+    for (int i = 0; i < 2; i++) {
+        ArrowY[i].setSize (sf::Vector2f (thickAxes, lenArrow));
+        ArrowY[i].setOrigin (sf::Vector2f (thickAxes / 2, 0));
+        ArrowY[i].setPosition (sf::Vector2f (coordCenter.x, coordCenter.y - LenAxesY.x));
+        ArrowY[i].setRotation ((1 - 2 * i) * angleArrow);
+    }
+
+    changed = false;
 }
 
+Graphic::Graphic (sf::Vector2i location, sf::Vector2u size) :
+    widget (location, size)
+{}
+
+void Graphic::SetChanged () {
+    changed = true;
+}

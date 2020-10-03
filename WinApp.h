@@ -2,6 +2,7 @@
 #define SORTANALYS_WINAPP_H
 
 #include "widget.h"
+#include "GraphicMgrs.h"
 
 class WinApp {
     int height, width;
@@ -10,7 +11,9 @@ class WinApp {
 public:
 
     sf::RenderWindow window;
+
     ButtonMgr Buttons;
+    GraphicMgr Graphics;
 
     WinApp (int height, int width, const char *title);
     void Run ();

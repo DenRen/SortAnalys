@@ -1,6 +1,7 @@
 #ifndef SORTANALYS_WIDGET_H
 #define SORTANALYS_WIDGET_H
 
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include "MyWindow.h"
@@ -64,6 +65,11 @@ struct MyText {
     void InitText (sf::Font &font, int size, sf::Color color, sf::Text::Style style);
 
     void SetInCenter (sf::Vector2i location, sf::Vector2u size);
+    void SetOriginInCenter ();
+    void SetOriginInUp ();
+    void SetOriginInRight ();
+    void SetOriginInLeft ();
+    void SetOriginInTopRight ();
 };
 
 // Coordinate central!
@@ -89,34 +95,54 @@ public:
     ~button ();
 };
 
-class ButtonMgr {       // Fabric
-    sf::Vector2u size;
-    sf::Texture *TurnOn;
-    sf::Texture *TurnOff;
-    sf::Texture *Pointed;
+class Graphic : public widget, public MyText {
 
-    sf::Font *font;
-    unsigned sizeFont;
-    sf::Color color;
-    int style = -1;
+    sf::RectangleShape AxesX;
+    sf::RectangleShape AxesY;
+
+    sf::RectangleShape DivX;
+    sf::RectangleShape DivY;
+
+    sf::RectangleShape ArrowX[2];
+    sf::RectangleShape ArrowY[2];
+
+    bool changed = true;
+
+    sf::Vector2i coordCenter;
+    sf::Vector2i LenAxesX;
+    sf::Vector2i LenAxesY;
+
 public:
-    std::vector <button *> buttons;
+    sf::Vector2f RelPosIntAxes;     // Relative position of intersecting axes
 
-    ButtonMgr () = default;
-    ~ButtonMgr ();
+    sf::Vector2f RelLenX;
+    sf::Vector2f RelLenY;
 
-    void setSize (sf::Vector2u size);
-    void setAnimation (sf::Texture *TurnOn, sf::Texture *TurnOff, sf::Texture *Pointed);
-    void setFont (sf::Font *font, unsigned sizeFont, sf::Color color);
-    void setFont (sf::Font *font, unsigned sizeFont, sf::Color color, sf::Text::Style style);
+    sf::Vector2u NumDivX;
+    sf::Vector2u NumDivY;
 
-    bool Verifier ();
+    int thickAxes;                  // Thickness of axes
+    int thickDiv;                   // Thickness of division
+    int lenDiv;
 
-    void draw ();
+    sf::Vector2u sizeDiv;
+    sf::Vector2i DistBetweenDivVal;
+
+    sf::Vector2i valDiv;
+
+    int lenArrow;       // Hypotenuse
+    float angleArrow;
+
+    void SetChanged ();
+
+    Graphic () = default;
+    Graphic (sf::Vector2i location, sf::Vector2u size);
+
     void action ();
     void action (sf::Event event);
+    void draw ();
 
-    void addButton (sf::Vector2i CenterCoord, std::string title);
+    bool Verifier ();
+    void update ();
 };
-
 #endif //SORTANALYS_WIDGET_H

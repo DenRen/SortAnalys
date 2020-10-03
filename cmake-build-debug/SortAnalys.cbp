@@ -86,7 +86,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/GLobalWindow.h">
+		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/GraphicMgrs.cpp">
+			<Option target="SortAnalys"/>
+		</Unit>
+		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/GraphicMgrs.h">
+			<Option target="SortAnalys"/>
+		</Unit>
+		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/GraphicsSettings.cpp">
+			<Option target="SortAnalys"/>
+		</Unit>
+		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/GraphicsSettings.h">
 			<Option target="SortAnalys"/>
 		</Unit>
 		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/MyFuncs.cpp">

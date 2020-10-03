@@ -18,13 +18,16 @@ void WinApp::Run () {
                 window.close ();
 
             Buttons.action (event);
+            Graphics.action (event);
         }
 
         Buttons.action ();
+        Graphics.action ();
 
-        window.clear ();
+        window.clear (ColorBG);
 
         Buttons.draw ();
+        Graphics.draw ();
 
         window.display ();
     }

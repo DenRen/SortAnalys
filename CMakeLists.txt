@@ -10,6 +10,12 @@ set(SFML_LIBRARY_DIR "/usr/lib/SFML")
 link_directories (SFML_LIBRARY_DIR)
 include_directories (SFML_INCLUDE_DIR)
 
-add_executable(SortAnalys main.cpp widget.cpp widget.h point.cpp point.h MyWindow.h WinApp.cpp WinApp.h MyFuncs.cpp MyFuncs.h GLobalWindow.h)
+add_executable(SortAnalys main.cpp
+                          widget.h            widget.cpp
+                          point.h             point.cpp
+                          MyWindow.h
+                          WinApp.h            WinApp.cpp
+                          MyFuncs.h           MyFuncs.cpp
+                          GraphicsSettings.h  GraphicsSettings.cpp GraphicMgrs.cpp GraphicMgrs.h)
 
 target_link_libraries (SortAnalys sfml-graphics sfml-window sfml-system sfml-audio)
