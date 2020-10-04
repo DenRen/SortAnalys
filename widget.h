@@ -155,5 +155,9 @@ public:
 
     sf::Vector2i GetMinMaxValX ();
     sf::Vector2i GetMinMaxValY ();
+    sf::Vector2i GetValDiv (sf::Vector2i MaxVal);
+
+    void SetMaxX (int MaxValX);
+    void SetMaxY (int MaxValY);
 };
 #endif //SORTANALYS_WIDGET_H

@@ -395,3 +395,16 @@ sf::Vector2i Graphic::GetMinMaxValY () {
 
     return sf::Vector2i (down_min_val, up_max_val);
 }
+
+sf::Vector2i Graphic::GetValDiv (sf::Vector2i MaxVal) {
+    return sf::Vector2i (MaxVal.x / (NumDivX.x + NumDivX.y + 1),
+                         MaxVal.y / (NumDivY.x + NumDivY.y + 1));
+}
+
+void Graphic::SetMaxX (int MaxValX) {
+    valDiv.x = GetValDiv (sf::Vector2i (MaxValX, 0)).x;
+}
+
+void Graphic::SetMaxY (int MaxValY) {
+    valDiv.y = GetValDiv (sf::Vector2i (0, MaxValY)).y;
+}

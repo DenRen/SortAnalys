@@ -44,6 +44,15 @@ int main () {
 
     Graphics->graphs[0]->data = data;
 
+    Graphics->graphs[0]->SetMaxX (12);
+    Graphics->graphs[0]->SetChanged ();
+
+    int i = 0;
+    for (float x = 0; x < size_data; x += 0.1, i++)
+        data[i].second *= 10;
+
+    Graphics->graphs[0]->data = data;
+
     app.Run ();
 
     return 0;
