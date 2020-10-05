@@ -16,6 +16,6 @@ add_executable(SortAnalys main.cpp
                           MyWindow.h
                           WinApp.h            WinApp.cpp
                           MyFuncs.h           MyFuncs.cpp
-                          GraphicsSettings.h  GraphicsSettings.cpp GraphicMgrs.cpp GraphicMgrs.h)
+                          GraphicsSettings.h  GraphicsSettings.cpp GraphicMgrs.cpp GraphicMgrs.h MySorts.h MySorts.cpp)
 
 target_link_libraries (SortAnalys sfml-graphics sfml-window sfml-system sfml-audio)

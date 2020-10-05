@@ -104,6 +104,12 @@
 		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/MyFuncs.h">
 			<Option target="SortAnalys"/>
 		</Unit>
+		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/MySorts.cpp">
+			<Option target="SortAnalys"/>
+		</Unit>
+		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/MySorts.h">
+			<Option target="SortAnalys"/>
+		</Unit>
 		<Unit filename="/home/tester/Documents/GitHub/SortAnalys/MyWindow.h">
 			<Option target="SortAnalys"/>
 		</Unit>

@@ -1,11 +1,52 @@
 #include <cmath>
+#include <random>
 #include "WinApp.h"
 #include "GraphicsSettings.h"
+#include "MySorts.h"
 
 sf::RenderWindow *Window = nullptr;
 
+template <typename T>
+void FillRandVal32 (T data[], int size, std::mt19937 *mt) {
+    while (--size >= 0)
+        data[size] = (*mt) ();
+}
+
+template <typename T>
+bool CheckSortArray (T data[], int size) {
+    if (size <= 1)
+        return true;
+
+    while (--size >= 1)
+        if (data[size] < data[size - 1])
+            return false;
+
+    return true;
+}
+
+typedef struct rint res_type;
+
 int main () {
 
+    const int size = 1024 * 1024;
+
+    res_type *data = (res_type *) calloc (size, sizeof (int));
+
+    std::random_device rd;
+    std::mt19937 mersenne (rd ());
+    FillRandVal32 (data, size, &mersenne);
+
+    QSort (data, size);
+
+    if (CheckSortArray (data, size) == false) {
+        printf ("Failed sort array");
+        return EXIT_FAILURE;
+    } else {
+        printf ("Nice sort");
+        return EXIT_SUCCESS;
+    }
+
+    /*
     const int height = 720, width = 1200;
     const int FPS_Limit = 30;
 
@@ -38,7 +79,7 @@ int main () {
     std::vector <std::pair <float, float>> data;
     const float size_data = 20;
     for (float x = 0; x < size_data; x += 0.1)
-        data.push_back (std::make_pair (x, sin (x) * exp (x / 10 - 1)));
+        data.push_back (std::make_pair (x, 2 + sin (0.04 * x * x) - x * 0.01));
 
     Graphics->addGraph (sf::Vector2i (900, 400), sf::Vector2i (30, 8));
 
@@ -47,13 +88,17 @@ int main () {
     Graphics->graphs[0]->SetMaxX (12);
     Graphics->graphs[0]->SetChanged ();
 
-    int i = 0;
-    for (float x = 0; x < size_data; x += 0.1, i++)
-        data[i].second *= 10;
-
     Graphics->graphs[0]->data = data;
 
     app.Run ();
 
-    return 0;
+    return 0;*/
 }
+
+/*
+void swap (int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+*/
