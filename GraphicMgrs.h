@@ -34,10 +34,10 @@ public:
 
     void addButton (sf::Vector2i CenterCoord, std::string title);
     void SetTemplParam (button *Button);
+    bool *getState (int *size);
 };
 
 class GraphicMgr {
-
 
 public:
     sf::Font *font;
@@ -69,6 +69,9 @@ public:
     sf::Color colorPoint;
 
     std::vector <Graphic *> graphs;
+
+    std::string titleX, titleY;
+    sf::Vector2i locateNameArrows;
 
     GraphicMgr () = default;
     ~GraphicMgr ();

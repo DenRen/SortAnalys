@@ -10,7 +10,7 @@ void InitButtonMgr (ButtonMgr *Buttons, sf::Vector2u size_button, const int size
         throw std::runtime_error ("Failed open font");
 
     sf::Texture *TextureButtonOn  = LoadTexture (FileTextureButtons, {11, 8  }, size_image_button);
-    sf::Texture *TextureButtonPtd = LoadTexture (FileTextureButtons, {11, 358}, size_image_button);
+    sf::Texture *TextureButtonPtd = LoadTexture (FileTextureButtons, {11, 427}, size_image_button);
     sf::Texture *TextureButtonOff = LoadTexture (FileTextureButtons, {11, 77 }, size_image_button);
 
     Buttons->setSize (size_button);
@@ -47,6 +47,9 @@ void InitGraphicMgr (GraphicMgr *Graphics, sf::Vector2u size_graphic, const int 
 
     Graphics->radiusPoint = 3;
     Graphics->colorPoint = sf::Color::Green;
+
+    Graphics->titleX = std::string ("Size");
+    Graphics->locateNameArrows = sf::Vector2i (LOCATE_NAME_ARROW::UP, LOCATE_NAME_ARROW::RIGHT);
 
     if (Graphics->Verifier () == false)
         throw std::runtime_error ("Incorrect value in InitGraphicMgr");

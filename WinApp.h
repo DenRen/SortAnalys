@@ -15,9 +15,14 @@ public:
     ButtonMgr Buttons;
     GraphicMgr Graphics;
 
+    int max_size_arr;
+    int num_sorts;
+    void (**sorts) (struct rint[], int);
+
     WinApp (int height, int width, const char *title);
     void Run ();
 
+    void CheckButtons ();
     void SetColorBackground (sf::Color color);
 };
 

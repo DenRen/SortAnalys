@@ -66,8 +66,10 @@ struct MyText {
     void InitText (sf::Font &font, int size, sf::Color color, sf::Text::Style style);
 
     void SetInCenter (sf::Vector2i location, sf::Vector2u size);
+
     void SetOriginInCenter ();
-    void SetOriginInUp ();
+    void SetOriginInUp ();;
+    void SetOriginInDown ();
     void SetOriginInRight ();
     void SetOriginInLeft ();
     void SetOriginInTopRight ();
@@ -92,8 +94,16 @@ public:
     void draw ();
     void action ();
     void action (sf::Event event);
+    int getState () const;
     //button (sf::Texture texture);
     ~button ();
+};
+
+enum LOCATE_NAME_ARROW {
+    UP,
+    LEFT,
+    DOWN,
+    RIGHT
 };
 
 class Graphic : public widget, public MyText {
@@ -141,6 +151,9 @@ public:
 
     std::vector <std::pair <float, float>> data;
 
+    std::string titleX, titleY;
+    sf::Vector2i locateNameArrows;
+
     void SetChanged ();
 
     Graphic () = default;
@@ -159,5 +172,8 @@ public:
 
     void SetMaxX (int MaxValX);
     void SetMaxY (int MaxValY);
+
+    void setTitleX (std::string title);
+    void setTitleY (std::string title);
 };
 #endif //SORTANALYS_WIDGET_H

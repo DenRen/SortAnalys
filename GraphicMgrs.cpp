@@ -161,6 +161,10 @@ void GraphicMgr::SetTemplParam (Graphic *graph) {
 
     graph->radiusPoint = radiusPoint;
     graph->colorPoint = colorPoint;
+
+    graph->titleX = titleX;
+    graph->titleY = titleY;
+    graph->locateNameArrows = locateNameArrows;
 }
 
 sf::Vector2i GraphicMgr::SetValDiv (sf::Vector2i MaxVal) {

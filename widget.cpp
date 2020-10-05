@@ -183,6 +183,10 @@ void button::SetInCenter () {
     MyText::SetInCenter (location, size);
 }
 
+int button::getState () const {
+    return state;
+}
+
 void MyText::InitText (sf::Font &font, int size, sf::Color color) {
     text.setFont (font);
     text.setCharacterSize (size);
@@ -207,7 +211,7 @@ void MyText::SetOriginInCenter () {
 
 void MyText::SetOriginInUp () {
     sf::Rect <float> size = text.getLocalBounds ();
-    text.setOrigin (size.width / 2, size.height / 2);
+    text.setOrigin (size.width / 2, 0);
 }
 
 void MyText::SetOriginInRight () {
@@ -223,6 +227,11 @@ void MyText::SetOriginInLeft () {
 void MyText::SetOriginInTopRight () {
     sf::Rect <float> size = text.getLocalBounds ();
     text.setOrigin (size.width, 0);
+}
+
+void MyText::SetOriginInDown () {
+    sf::Rect <float> size = text.getLocalBounds ();
+    text.setOrigin (size.width / 2, 2 * size.height);
 }
 
 bool Graphic::Verifier () {
@@ -295,6 +304,51 @@ void Graphic::draw () {
         Window->draw (ArrowX[i]);
         Window->draw (ArrowY[i]);
     }
+
+    // Draw name axes
+    const int higthArrow = ArrowX[0].getSize ().y;
+    text.setString (titleX);
+    switch (locateNameArrows.x) {
+        case LOCATE_NAME_ARROW::UP:
+            MyText::SetOriginInDown ();
+            text.setPosition (coordCenter.x + LenAxesX.y, coordCenter.y - higthArrow);
+            break;
+        case LOCATE_NAME_ARROW::DOWN:
+            MyText::SetOriginInUp ();
+            text.setPosition (coordCenter.x + LenAxesX.y, coordCenter.y - higthArrow);
+            break;
+        case LOCATE_NAME_ARROW::RIGHT:
+            MyText::SetOriginInLeft ();
+            text.setPosition (coordCenter.x + LenAxesX.y + higthArrow, coordCenter.y);
+            break;
+        case LOCATE_NAME_ARROW::LEFT:
+            MyText::SetOriginInRight ();
+            text.setPosition (coordCenter.x + LenAxesX.y - higthArrow, coordCenter.y);
+            break;
+    }
+    Window->draw (text);
+
+    // Draw name axes
+    text.setString (titleY);
+    switch (locateNameArrows.y) {
+        case LOCATE_NAME_ARROW::UP:
+            MyText::SetOriginInDown ();
+            text.setPosition (coordCenter.x, coordCenter.y - LenAxesY.x - higthArrow);
+            break;
+        case LOCATE_NAME_ARROW::DOWN:
+            MyText::SetOriginInUp ();
+            text.setPosition (coordCenter.x, coordCenter.y - LenAxesY.x - higthArrow);
+            break;
+        case LOCATE_NAME_ARROW::RIGHT:
+            MyText::SetOriginInLeft ();
+            text.setPosition (coordCenter.x + 2 * higthArrow, coordCenter.y - LenAxesY.x);
+            break;
+        case LOCATE_NAME_ARROW::LEFT:
+            MyText::SetOriginInRight ();
+            text.setPosition (coordCenter.x - 2 * higthArrow, coordCenter.y - LenAxesY.x);
+            break;
+    }
+    Window->draw (text);
 
     // Draw only I part graphic
     const int size_data = data.size ();
@@ -407,4 +461,12 @@ void Graphic::SetMaxX (int MaxValX) {
 
 void Graphic::SetMaxY (int MaxValY) {
     valDiv.y = GetValDiv (sf::Vector2i (0, MaxValY)).y;
+}
+
+void Graphic::setTitleX (std::string title) {
+    titleX = title;
+}
+
+void Graphic::setTitleY (std::string title) {
+    titleY = title;
 }
